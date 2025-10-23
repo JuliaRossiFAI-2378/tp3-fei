@@ -1,0 +1,107 @@
+    .main{
+        display:grid;
+        grid-template-columns: 1fr 200px 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: 'player spacingtop enemy'
+        'player versus enemy'
+        'player spacingbot enemy';
+    }
+
+    .versus{
+        width: 200px;
+        align-self: stretch;
+    }
+
+    .player{
+        display:grid;
+        grid-template-columns: auto 200px 200px 200px auto;
+        grid-template-rows: minmax(14px,16px) 200px auto 250px auto 200px minmax(14px,16px);
+        grid-template-areas: "space0 space0 space0 space0 space0"
+        "space1 space1 head space2 space2"
+        "space3 space3 space3 space3 space3"
+        "space4 shield space5 sword space6"
+        "space7 space7 space7 space7 space7"
+        "space8 space8 legs space9 space9"
+        "space10 space10 space10 space10 space10";
+        max-width: 625px;
+    }
+
+    .head .sword .shield .legs{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+    }
+
+    .space0  { grid-area: space0; }
+    .space1  { grid-area: space1; }
+    .head    { grid-area: head; }
+    .space2  { grid-area: space2; }
+    .space3  { grid-area: space3; }
+    .space4  { grid-area: space4; }
+    .shield  { grid-area: shield; }
+    .space5  { grid-area: space5; }
+    .sword   { grid-area: sword; }
+    .space6  { grid-area: space6; }
+    .space7  { grid-area: space7; }
+    .space8  { grid-area: space8; }
+    .legs    { grid-area: legs; }
+    .space9  { grid-area: space9; }
+    .space10 { grid-area: space10; }
+
+.enemy{
+        display:grid;
+        grid-template-columns: auto 200px 200px 200px auto;
+        grid-template-rows: minmax(14px,16px) 200px auto 250px auto 200px minmax(14px,16px);
+        grid-template-areas: "space0 space0 space0 space0 space0"
+        "space1 space1 Ehead space2 space2"
+        "space3 space3 space3 space3 space3"
+        "space4 Esword space5 Eshield space6"
+        "space7 space7 space7 space7 space7"
+        "space8 space8 Elegs space9 space9"
+        "space10 space10 space10 space10 space10";
+        max-width: 625px;
+    }
+
+    .Ehead .Esword .Eshield .Elegs{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+    }
+
+    .enemy-list{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 'enemyPick1 enemyPick2 enemyPick3';
+    }
+
+    .zone1{
+        clip-path: polygon(0 51%, 23% 48%, 35% 60%, 52% 71%, 67% 60%, 76% 48%, 100% 51%, 100% 0, 0 0);
+    }
+
+    .zone2{
+        clip-path: polygon(0 51%, 23% 48%, 35% 60%, 52% 71%, 67% 60%, 76% 48%, 100% 51%, 100% 100%, 0 100%);
+    }
+    
+    .zone3{
+        clip-path: polygon(100% 100%, 43% 77%, 24% 58%, 0 0, 100% 0);
+    }
+
+    .zone4{
+        clip-path: polygon(70% 100%, 43% 77%, 24% 58%, 0 26%, 0 100%);
+    }
+    
+    .zone5{
+        clip-path: polygon(0 69%, 21% 67%, 40% 61%, 47% 68%, 69% 60%, 100% 65%, 100% 0, 0 0);
+    }
+
+    .zone6{
+        clip-path: polygon(0 69%, 21% 67%, 40% 61%, 47% 68%, 69% 60%, 100% 65%, 100% 100%, 0 100%);
+    }
+    
+    .zone7{
+        clip-path: polygon(50% 15%, 18% 25%, 22% 48%, 29% 67%, 50% 83%, 71% 67%, 78% 48%, 82% 25%);
+    }
+
+    .zone8{
+          clip-path: polygon(100% 100%, 0 100%, 0% 0%, 50% 0, 50% 15%, 18% 25%, 22% 48%, 29% 67%, 50% 83%, 71% 67%, 78% 48%, 82% 25%, 50% 15%, 50% 0, 100% 0);
+    }
