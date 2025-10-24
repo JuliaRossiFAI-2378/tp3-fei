@@ -17,9 +17,14 @@ const Header = () => {
                 <nav className=" flex items-center gap-4 sm:gap-4">
                     {auth.user ? (
                         <>
+                            <Link href={route('demo')} >
+                                <Button>
+                                    API
+                                </Button>
+                            </Link>
                             <Link href={route('dashboard')} >
                                 <Button>
-                                    Dashboard
+                                    Play
                                 </Button>
                             </Link>
 

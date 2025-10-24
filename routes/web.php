@@ -5,6 +5,9 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\SoapController;
+use App\Http\Controllers\RestWrapperController;
+
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -20,7 +23,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/roles', [GameController::class, 'store']);
 
+    Route::get('/apidemo', function () {
+        return Inertia::render('wrapperDemo');
+    })->name('demo');
+
 });
+
+
 
 //aca van las rutas para admins
 Route::middleware(['auth', 'admin'])->group(function () {
