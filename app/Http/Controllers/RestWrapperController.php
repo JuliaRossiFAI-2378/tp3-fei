@@ -63,7 +63,7 @@ class RestWrapperController extends Controller
         }
     }
 
-        public function getById(Request $request, $entity, $id){
+        public function getById($entity, $id){
         $targetNs = $this->fetchTargetNamespaceFromWsdl($this->wsdlUrl)
             ?? 'http://127.0.0.1/tp3-fei/public/api/soap/service';
 

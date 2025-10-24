@@ -55,15 +55,10 @@ export default function wrapperDemo() {
                     <div>
                         <label className="block mb-1 font-medium">Tabla</label>
                         <select className="w-full border border-gray-300 rounded px-3 py-2" value={entity} onChange={(e) => setEntity(e.target.value)} >
-                            <option value="games">games</option>
-                            <option value="users">users</option>
                             <option value="ghosts">ghosts</option>
                             <option value="npcs">enemies</option>
-                            <option value="equipment">equipment</option>
                             <option value="items">items</option>
                             <option value="materials">materials</option>
-                            <option value="effects">effects</option>
-                            <option value="triggers">triggers</option>
                         </select>
                     </div>
                     <div>
