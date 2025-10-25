@@ -17,7 +17,7 @@ import { PlayerStatsContext, EnemyStatsContext } from '@/hooks/StatsContext';
 import { DragProvider } from '@/hooks/DragContext';
 import Loot from '@/components/loot';
 import Header from '@/components/header';
-
+import getPokemon from '../../services/getPokemon';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -29,10 +29,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard() {
     //datos
-    const {user, game, enemyList} = usePage().props;
-
+    const {user, game, enemyList, pokemonEnemy} = usePage().props;
     const [currentEntity, setCurrentEntity] = useState("none");//npc
-
+    
     //decide entidad actual
     useEffect(() => {
         if (game?.npc != null) {
@@ -378,6 +377,21 @@ export default function Dashboard() {
     }, [play]);
     
     /////////////////////////
+    const [pokemonNpc, setPokemonNpc] = useState([]);
+    let auxilio = [];
+    useEffect(() => {
+        const fetchPokemon = async() => {
+            for(let i=0; i<3; i++){
+                const pokemon = await getPokemon(Math.floor(Math.random() * 152));
+                if(pokemon){
+                    auxilio.push(pokemon);
+                }
+                console.log(pokemon)
+            }
+            setPokemonNpc(auxilio);
+        }
+        fetchPokemon();
+    }, [])
 
     return (
         <>
@@ -394,7 +408,7 @@ export default function Dashboard() {
                         <p>Dia actual: {game.currentDay}</p>
                     </div>
                         <EnemyStatsContext.Provider value={{ damage: enemyDamage , cooldown: enemyAttackCounter, speed: enemySpeed}}>
-                            <Grid variant="npc" npc={game?.npc}  />
+                            <Grid variant="npc" npc={game?.npc} poke={pokemonEnemy}  />
                         </EnemyStatsContext.Provider>
                     <div className=" [grid-area:versus] rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                         <button onClick={()=>{setPlay(!play)}} className='bg-red-300 rounded-2xl p-4' >
@@ -417,15 +431,15 @@ export default function Dashboard() {
 
                     :
 
-                    (game.currentScene === 4 ?
+                    (game.currentScene === 4?
 
                         <div className="enemy-list gap-4">
-                        {enemyList.slice(0, 3).map((enemy, i) => (
-                            <div key={enemy.id} className={`max-w-xl bg-red-900 rounded-2xl p-4 [grid-area:enemyPick${i + 1}]`}  onClick={() => { router.patch('dashboard', { currentScene: 2, currentEnemy: enemy.id }); }}>
-                                <p>{enemy.name}</p>
-                                <img src={`/images/NPCs/${enemy.image}`} alt={enemy.name} />
+                        {pokemonNpc.length > 0? enemyList.slice(0, 3).map((enemy, i) => (
+                            <div key={enemy.id} className={`max-w-xl bg-red-900 rounded-2xl p-4 [grid-area:enemyPick${i + 1}]`}  onClick={() => { router.patch('dashboard', { currentScene: 2, currentEnemy: enemy.id, pokemonEnemy: pokemonNpc[i] }); }}>
+                                <p>{pokemonNpc[i].name}</p>
+                                <img src={pokemonNpc[i].sprites.front_default} alt={pokemonNpc[i].name} />
                             </div>
-                        ))}
+                        )): "" }
                         </div>
                         
                 :

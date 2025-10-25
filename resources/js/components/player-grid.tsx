@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EquipmentSlot from "./equipmentSlot";
 import ParseTooltipNpc from "./parseTooltipNpc";
+import getPokemon from '../../services/getPokemon';
 
-export default function Grid({variant, sword, shield, upper, lower, npc, ghost, hoverMix = false}) {
+export default function Grid({variant, sword, shield, upper, lower, npc, ghost, hoverMix = false, poke}) {
     const [tooltip, setTooltip] = useState(null);
     const showTooltip = (mouseEvent, text) => {
         setTooltip({ x: mouseEvent.clientX + 6, y: mouseEvent.clientY - 20, text });
     };
     const hideTooltip = () => setTooltip(null);
     const updateTooltip = (mouseEvent) => setTooltip((prev) => (prev ? { ...prev, x: mouseEvent.clientX + 6, y: mouseEvent.clientY - 20 } : prev));
-
     const data =
         variant === "ghost" && ghost
         ? {
@@ -19,7 +19,6 @@ export default function Grid({variant, sword, shield, upper, lower, npc, ghost, 
             lower: ghost.equipments?.find((equip) => equip.type?.name === "boots"),
         } : variant === "player" ? { sword, shield, upper, lower }
         : { npc };
-
     return (
         <div style={{backgroundImage: variant === "player" || variant === "ghost" ? `url(/images/stick.png)` : "", backgroundSize: "cover"}} className={`${variant === "player" ? "player [grid-area:player]" : "enemy [grid-area:enemy]"} rounded-xl border border-sidebar-border/70 dark:border-sidebar-border relative`} >
             {(variant === "player" || variant === "ghost") && (
@@ -34,9 +33,10 @@ export default function Grid({variant, sword, shield, upper, lower, npc, ghost, 
             {variant === "npc" && npc && (
                 <div className="absolute inset-0 w-full h-full">
                     <div id="enemy" >
-                        <img src={`/images/NPCs/${npc?.image}`} className="object-contain" onMouseEnter={(mouseEvent) => showTooltip(mouseEvent, <ParseTooltipNpc npc={npc} variant="enemy" />)} onMouseLeave={hideTooltip} onMouseMove={updateTooltip} />
+                        <img src={`${poke.sprites.front_default}`} className="object-contain size-full" onMouseEnter={(mouseEvent) => showTooltip(mouseEvent, <ParseTooltipNpc npc={npc} variant="enemy" pokedata={poke} />)} onMouseLeave={hideTooltip} onMouseMove={updateTooltip} />
                     </div>
-                    <p>soy {npc.name}</p>
+                    <p>{} </p>
+                    <p>soy {poke.name}</p>
                     <p>Vida: {npc.hp}</p>
                 </div>
             )}

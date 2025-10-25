@@ -85,7 +85,7 @@ export default function profile() {       //       datos recibidos
                     </div></Frame>
                     
                         <Frame>
-                            <img src={`${chart}`} className='size-xl'></img>
+                            <img src={`${chart}`} className='size-xl'/>
                         </Frame>
                 </Frame>
                 : <p className='text-3xl font-[merriweather] m-6'>No hay partidas en su historial.</p>}

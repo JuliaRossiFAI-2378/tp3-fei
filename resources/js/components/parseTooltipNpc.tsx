@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import AttackDisplay from "@/components/attackDisplay";
 
-export default function ParseTooltipNpc({ npc }) {
+export default function ParseTooltipNpc({ npc, pokedata }) {
     return useMemo(() => {
         if (npc){
             const triggerTextMap = {
@@ -71,7 +71,7 @@ export default function ParseTooltipNpc({ npc }) {
 
             return (
                 <div className="flex flex-col gap-1">
-                    <h4 className="font-semibold text-base capitalize">{npc.name}</h4>
+                    <h4 className="font-semibold text-base capitalize">{pokedata.name}</h4>
                     <AttackDisplay variant={"enemy"} />
                     {effectLines.map((entry, i) => {
                         const parsedTrigger = triggerTextMap[entry.trigger] ?? triggerTextMap.default;

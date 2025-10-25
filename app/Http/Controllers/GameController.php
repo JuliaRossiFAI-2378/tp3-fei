@@ -41,7 +41,7 @@ class GameController extends Controller
             }
             $this->updateGame($data);
         }
-        return $this->playGame();
+        return $this->playGame($request['pokemonEnemy']);
     }
 
     public function getLiveGame($idUser){
@@ -106,7 +106,7 @@ class GameController extends Controller
 
 
     //carga o crea una partida
-    public function playGame(): Response{
+    public function playGame($pokeEnemy = null): Response{
         $idUser = Auth::user()->id;
         $game = $this->getLiveGame($idUser);
         $enemyList = null;
@@ -121,6 +121,6 @@ class GameController extends Controller
             if(!$gameData){$gameData = null;}//porsiacaso
             $enemyList = $this->getNpcs(1);
         }
-        return Inertia::render('dashboard', ['game' => $gameData->toArray(), 'enemyList' => $enemyList]);
+        return Inertia::render('dashboard', ['game' => $gameData->toArray(), 'enemyList' => $enemyList, 'pokemonEnemy' => $pokeEnemy]);
     }
 }
