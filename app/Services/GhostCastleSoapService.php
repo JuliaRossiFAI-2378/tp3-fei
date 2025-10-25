@@ -26,16 +26,16 @@ class GhostCastleSoapService
 
             // si no esta aca, no acepta el query
             $allowedEntities = [
-                'games',
-                'users',
+                //'games',
+                //'users',
                 'ghosts',
-                'equipment',
+                //'equipment',
                 'materials',
                 'npcs',
-                'effects',
-                'triggers',
+                //'effects',
+                //'triggers',
                 'items',
-                'zones'
+                //'zones'
             ];
 
             if (!in_array($entity, $allowedEntities, true)) {
