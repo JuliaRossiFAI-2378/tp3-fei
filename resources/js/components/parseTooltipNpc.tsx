@@ -86,6 +86,6 @@ export default function ParseTooltipNpc({ npc, pokedata }) {
                 </div>
             );
         }
-    }, [npc]);
+    }, [npc, pokedata]);
 }
 

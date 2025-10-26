@@ -4,6 +4,7 @@ import ParseTooltipNpc from "./parseTooltipNpc";
 import getPokemon from '../../services/getPokemon';
 
 export default function Grid({variant, sword, shield, upper, lower, npc, ghost, hoverMix = false, poke}) {
+    const pokeimg = poke?.sprites?.front_default ?? null;
     const [tooltip, setTooltip] = useState(null);
     const showTooltip = (mouseEvent, text) => {
         setTooltip({ x: mouseEvent.clientX + 6, y: mouseEvent.clientY - 20, text });
@@ -33,11 +34,10 @@ export default function Grid({variant, sword, shield, upper, lower, npc, ghost, 
             {variant === "npc" && npc && (
                 <div className="absolute inset-0 w-full h-full">
                     <div id="enemy" >
-                        <img src={`${poke.sprites.front_default}`} className="object-contain size-full" onMouseEnter={(mouseEvent) => showTooltip(mouseEvent, <ParseTooltipNpc npc={npc} variant="enemy" pokedata={poke} />)} onMouseLeave={hideTooltip} onMouseMove={updateTooltip} />
+                        <img src={pokeimg} className="object-contain size-full" onMouseEnter={(mouseEvent) => showTooltip(mouseEvent, <ParseTooltipNpc npc={npc} variant="enemy" pokedata={poke} />)} onMouseLeave={hideTooltip} onMouseMove={updateTooltip} />
                     </div>
                     <p>{} </p>
-                    <p>soy {poke.name}</p>
-                    <p>Vida: {npc.hp}</p>
+                    <p>soy {poke?.name}</p>
                 </div>
             )}
 

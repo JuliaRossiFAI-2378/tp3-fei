@@ -7,7 +7,7 @@ import { Link } from '@inertiajs/react';
 import { useForm, router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { timerIncrement } from '@/hooks/timerIncrement';
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { useIncrementTrigger } from '@/hooks/useIncrementTrigger';
 import { useAttackOnTrigger } from '@/hooks/useAttackOnTrigger';
 import { useHitOnTrigger } from '@/hooks/useHitOnTrigger';
@@ -380,18 +380,40 @@ export default function Dashboard() {
     const [pokemonNpc, setPokemonNpc] = useState([]);
     let auxilio = [];
     useEffect(() => {
-        const fetchPokemon = async() => {
-            for(let i=0; i<3; i++){
-                const pokemon = await getPokemon(Math.floor(Math.random() * 152));
-                if(pokemon){
-                    auxilio.push(pokemon);
+        if(game?.currentScene === 4){//para no fetchear en cualquier version de la pagina
+            const fetchPokemon = async() => {
+                const usedNumbers = new Set();
+                for(let i=0; i<3; i++){
+                    const randomNumber = Math.floor(Math.random() * 151) + 1;//t puede salir 0 con random
+                    if (!usedNumbers.has(randomNumber)){
+                        const pokemon = await getPokemon(randomNumber);
+                        if(pokemon){
+                            auxilio.push(pokemon);
+                        }
+                        console.log(pokemon)
+                    }
                 }
-                console.log(pokemon)
+                setPokemonNpc(auxilio);
             }
-            setPokemonNpc(auxilio);
+            fetchPokemon();
         }
-        fetchPokemon();
-    }, [])
+    }, [game])
+
+    const memoPokemon = useMemo(() => {
+        if (!pokemonNpc?.length) return null;
+        return enemyList?.slice(0, 3).map((enemy, i) => {
+            const npc = pokemonNpc[i];
+            if (!npc) return null;
+                return (
+                    <div key={enemy.id} className={`max-w-xl bg-red-900 rounded-2xl p-4 [grid-area:enemyPick${i + 1}]`}
+                        onClick={() => router.patch("dashboard", { currentScene: 2, currentEnemy: enemy.id, pokemonEnemy: npc })}
+                    >
+                        <p>{npc?.name}</p>
+                        <img src={npc?.sprites?.front_default} />
+                    </div>
+                );
+        });
+    }, [pokemonNpc, enemyList]);
 
     return (
         <>
@@ -433,14 +455,9 @@ export default function Dashboard() {
 
                     (game.currentScene === 4?
 
-                        <div className="enemy-list gap-4">
-                        {pokemonNpc.length > 0? enemyList.slice(0, 3).map((enemy, i) => (
-                            <div key={enemy.id} className={`max-w-xl bg-red-900 rounded-2xl p-4 [grid-area:enemyPick${i + 1}]`}  onClick={() => { router.patch('dashboard', { currentScene: 2, currentEnemy: enemy.id, pokemonEnemy: pokemonNpc[i] }); }}>
-                                <p>{pokemonNpc[i].name}</p>
-                                <img src={pokemonNpc[i].sprites.front_default} alt={pokemonNpc[i].name} />
-                            </div>
-                        )): "" }
-                        </div>
+                    <div className="enemy-list gap-4">
+                        {memoPokemon}
+                    </div>
                         
                 :
                 (/*perdoname por esto diosito */
