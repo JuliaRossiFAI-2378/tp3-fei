@@ -15,7 +15,7 @@ const makeChart = async(data) =>{
     }
     
     try{
-        const chart = await fetch(`https://image-charts.com/chart?cht=p&chs=700x400&chd=t:${values}&chl=${days}&chf=bg,s,00000000`);
+        const chart = await fetch(`https://image-charts.com/chart?cht=p&chs=700x400&chd=t:${values}&chl=${days}&chf=bg,s,00000000&chtt=Dia+maximo+alcanzado+en+sus+partidas&chts=c74f0a,25`);
         return chart;
     }catch(error){
         console.log(error);
